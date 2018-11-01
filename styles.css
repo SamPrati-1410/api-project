@@ -1,0 +1,60 @@
+main {
+    margin-top: 4%;
+}
+#searchCity,#displayCities{
+  margin:0 auto;
+  position: relative;  
+  width: 75%;
+  text-align: center;
+}
+#displayCities .row{
+    text-align: center;
+}
+body{
+    background-color: #92B558;  
+}
+h1 {
+   
+    font-family: 'Oldenburg', Arial, sans-serif;
+    font-size: 4.0em;
+    line-height: 1.6em;
+    margin-bottom: 10px;
+    margin: 2%;
+}
+input{
+    width: 400px;
+}
+#showWeather,#btnChart{
+    border: 1px dashed;
+    border-radius: 5px;
+    background-color:#212529 !important;
+    margin-bottom: 30px;
+    margin-top: 25px;
+    letter-spacing: 4px;
+    word-spacing: 7px;
+   
+}
+#addCities{
+    background-color:#212529;
+    color: #fff;
+    border: none;
+    }
+ul{
+    list-style-type: none;
+    margin-top: 10px;
+    padding: 0;
+  }
+.cityList{
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+font-size: 27px;
+
+}
+li:nth-of-type(odd) {
+    background-color: #bad986 ;
+    border-bottom: 1px solid #528104;
+    color: #528104;
+}
+/*ul > li:last-child {
+    border-bottom: none;
+}*/
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Oldenburg" rel="stylesheet">
+    <title>Weather Report</title>
+</head>
+
+<body>
+    <main>
+        <section>
+            <article id="searchCity">
+                <h1>Current Weather Data</h1>
+                <span>Compare upto 20 cities current weather</span>
+                <div class="container">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Enter city name</span>
+                        </div>
+                        <input type="text" id="cities" class="form-control" placeholder="Type first few letters of any city and press Enter"
+                            aria-describedby="inputGroup-sizing-default">
+                       <!--<button id="addCities" class="btn btn-dark">Add City</button>--> 
+                    </div>
+                </div>
+                </div>
+            </article>
+
+            <!--DYNAMIC SEARCH AND LIST CITIES CODE 
+                  <div >
+                    <input type="text" name="search" id="search" placeholder="Search" class="form-control" />
+                   </div>
+                   <ul class="list-group" id="result"></ul>-->
+        </section>
+        <section id="displayCities">
+            <div class="container">
+                <ul id="listCity"></ul>
+             <!--   <button id='showWeather' class="btn btn-secondary btn-lg btn-block">Show Weather data for above Cities</button>-->
+            </div>
+        </section>
+        <div id="weatherData1"></div>
+        <div class="container">
+            <table class="table table-dark">
+
+                <thead>
+                    <tr class="none">
+                        <th scope="col">#</th>
+                        <th scope="col">City Name</th>
+                        <th scope="col">Country Code</th>
+                        <th scope="col">Temperature</th>
+                        <th scope="col">Description</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id='weatherData'>
+                </tbody>
+            </table>
+        </div>
+        <section id="chartsection">
+            <div class="container">
+                <button id='btnChart' class="btn btn-secondary btn-lg btn-block">Show Weather graph for above Cities</button>
+            </div>
+            <div class="container" id="chart">
+
+            </div><br><br><br>
+        </section>
+
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="weather.js"></script>
+</body>
+
+</html>
