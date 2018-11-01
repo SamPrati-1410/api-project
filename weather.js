@@ -9,7 +9,7 @@ function getWeather(curCityName) {
 	});
 	function appendCitiesToUrl() {
 		var arrUrl = arrCitiesId.map((urls) => { return urls[0] })
-		return url = 'http://api.openweathermap.org/data/2.5/group?id=' + arrUrl.join(',') + '&units=metric&APPID=8fa947eed508ef56ffe0312285799e9d';
+		return url = 'https://api.openweathermap.org/data/2.5/group?id=' + arrUrl.join(',') + '&units=metric&APPID=8fa947eed508ef56ffe0312285799e9d';
 	}
 	function displayWeather(objJson,curCityName) {
 		var weatherHtml = '';
