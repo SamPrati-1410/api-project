@@ -1,42 +1,45 @@
 var arrCitiesId = [];
+var citySlNum = 0;
 function getWeather(curCityName) {
 	appendCitiesToUrl()
 	$.getJSON(url, function (data, status, xhr) {
 		var recData = data;
 		var recStatus = status;
 		var jqXHR = xhr;
-		displayWeather(recData,curCityName)
+		displayWeather(recData, curCityName)
 	});
 	function appendCitiesToUrl() {
 		var arrUrl = arrCitiesId.map((urls) => { return urls[0] })
 		return url = 'https://api.openweathermap.org/data/2.5/group?id=' + arrUrl.join(',') + '&units=metric&APPID=8fa947eed508ef56ffe0312285799e9d';
 	}
-	function displayWeather(objJson,curCityName) {
+	function displayWeather(objJson, curCityName) {
 		var weatherHtml = '';
-		objJson['list'].map(function(items,obs){
-			var citySlNum = 1 + parseInt(obs);
-			var objList = objJson['list'][obs];
-			arrCitiesId.find(function (item) {
-				if (objList['name'] === curCityName) {
-					item.push(objList['main'].temp)
-				}
-			});
-	weatherHtml += `<tr id='${citySlNum}'>
-      <th scope="row"> ${citySlNum} </th>
-      <td>${objList['name']}</td>
-      <td>${objList.sys.country}</td>
-      <td>${objList['main'].temp } &degC </td>
-	  <td>${objList['weather'][0]['main']} - ${objList['weather'][0]['description'] }</td>
-	  </tr>`
-	  var button =$('<td><button name="'+objList['name']+'" type="button" class="btn btn-dark">X</button></td></tr>').click(function (e) {
-		var cityToRemove = $(e.currentTarget).closest('tr').remove();
-		
-		removeCityArray =arrCitiesId;
-		removeCityArray.splice(e.currentTarget.name,1);
-		 });
-		
-		$('#weatherData').html(weatherHtml);
-		$('tr:not(.none)').append(button);
+		var cityNameInApi = objJson['list'].find(function (items) {
+			return items.name === curCityName;
+		});
+		citySlNum++;
+		weatherHtml = `<tr id='${cityNameInApi.id}'>
+      <th scope="row">${citySlNum}</th>
+      <td>${cityNameInApi.name}</td>
+      <td>${cityNameInApi.sys.country}</td>
+      <td>${cityNameInApi['main'].temp} &degC </td>
+	  <td>${cityNameInApi['weather'][0]['main']} - ${cityNameInApi['weather'][0]['description']}</td>`
+		var button = $('<td><button name="' + cityNameInApi.name + '" type="button" class="btn btn-dark">X</button></td></tr>').click(function (e) {
+			arrCitiesId.splice(e.target.name);
+			$(e.currentTarget).closest('tr').remove();
+
+		});
+		$('#weatherData').append(weatherHtml);
+		//$('tr:not(.none)').append(button);
+		$('tr#' + cityNameInApi.id).append(button);
+		objJson['list'].find(function (items, obs) {
+			if (items.name === curCityName) {
+				arrCitiesId.find(function (item) {
+					if (curCityName === item[1]) {
+						item.push(items['main'].temp)
+					}
+				});
+			}
 
 		});
 	}
@@ -50,7 +53,7 @@ function matchCity(cityName) {
 		if (found !== undefined) {
 			$('#cities').val(found.name);
 			arrCitiesId.push([found.id, found.name, found.country]);
-			getWeather(found.name);		
+			getWeather(found.name);
 			$('#cities').focus();
 			$('#cities').val('');
 		} else { alert('No such city, Try again') }
@@ -88,12 +91,12 @@ function drawChart() {
 	};
 	var barColors = d3.schemeCategory10;
 	var yScale = d3.scaleLinear()
-		.domain([0, d3.max(arrCitiesId, function (d, i,j) { return d[3] })])
+		.domain([0, d3.max(arrCitiesId, function (d, i, j) { return d[3] })])
 		.range([chartArea.height, 0]).nice();
 
 
 	var xScale = d3.scaleBand()
-		.domain(arrCitiesId.map(function (d, i,j) { return d[1] }))
+		.domain(arrCitiesId.map(function (d, i, j) { return d[1] }))
 		.range([0, chartArea.width])
 		.padding(.2);
 
