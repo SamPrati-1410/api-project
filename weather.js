@@ -63,7 +63,6 @@ $('#cities').change(function () {
 });
 
 $('#showWeather').click(function () {
-	alert();
 	if (arrCitiesId.length !== 0) {
 		getWeather();
 	} else { alert('Please enter city names and then generate weather report!!!') }
@@ -75,58 +74,54 @@ $('#btnChart').click(function () {
 });
 
 function drawChart() {
-
-	const w = 1100;
-	const h = 500;
-	const height = 500 - 120;
-	const padding = 60;
-	
+	d3.select("svg").remove();
 	const svg = d3.select('#chart')
 		.append('svg')
-		.attr('width', w)
-		.attr('height', h)
+		.attr('width', 1100)
+		.attr('height', 500)
 		.style("background-color", "#bad986");
-	var barColors =d3.schemeCategory10;
-	const xScale = d3.scaleBand()
-		.domain(arrCitiesId.map(function(d,i){return d[1]}))
-		.range([padding, w - padding])
-		.padding(.2);
-		const xAxis = svg.append("g")
-		.classed('xAxis',true)
-		.attr("transform", "translate(0," + (height + padding) + ")")
-		.call(d3.axisBottom(xScale));
+	var padding = { top: 20, right: 30, bottom: 30, left: 50 };
 
-	const yScale = d3.scaleLinear()
-		.domain([0, d3.max(arrCitiesId, (d, i) => d[3])])
-		.range([h - padding, padding]);
-		const yAxis = d3.axisLeft(yScale);
-		svg.append('g')
-		.attr('transform', 'translate(' + padding + ',0)')
-		.call(yAxis);
-	
-		var rectGrp= svg.append('g').attr(
-			'transform','translate('+padding+','+padding+')'
+	var chartArea = {
+		"width": parseInt(svg.style("width")) - padding.left - padding.right,
+		"height": parseInt(svg.style("height")) - padding.top - padding.bottom
+	};
+	var barColors = d3.schemeCategory10;
+	var yScale = d3.scaleLinear()
+		.domain([0, d3.max(arrCitiesId, function (d, i,j) { return d[3] })])
+		.range([chartArea.height, 0]).nice();
+
+
+	var xScale = d3.scaleBand()
+		.domain(arrCitiesId.map(function (d, i,j) { return d[1] }))
+		.range([0, chartArea.width])
+		.padding(.2);
+
+	var xAxis = svg.append('g')
+		.classed('xAxis', true)
+		.attr(
+			'transform', 'translate(' + padding.left + ',' + (chartArea.height + padding.top) + ')'
+		)
+		.call(d3.axisBottom(xScale));
+	var yAxisfn = d3.axisLeft(yScale);
+	var yAxis = svg.append('g')
+		.classed('yAxis', true)
+		.attr(
+			'transform', 'translate(' + padding.left + ',' + padding.top + ')'
 		);
-		rectGrp.selectAll('rect').data(arrCitiesId).enter()
+	yAxisfn(yAxis);
+	var rectGrp = svg.append('g').attr(
+		'transform', 'translate(' + padding.left + ',' + padding.top + ')'
+	);
+	rectGrp.selectAll('rect').data(arrCitiesId).enter()
 		.append('rect')
 		.attr('width', xScale.bandwidth())
-		.attr('height', function(d, i,j) 
-		{return height - yScale(d[3]);})
-		.attr('x', function(d, i,j) 
-		{return xScale(d[1]);})
-		.attr('y', function(d, i,j) 
-		{return yScale(d[3]);})
-		.attr('fill',function(d,i){
+		.attr('height', function (d, i, j) { return chartArea.height - yScale(d[3]); })
+		.attr('x', function (d, i, j) { return xScale(d[1]); })
+		.attr('y', function (d, i, j) { return yScale(d[3]); })
+		.attr('fill', function (d, i, j) {
 			return barColors[i];
 		});
-
-	svg.selectAll("text")
-		.data(arrCitiesId)
-		.enter()
-		.append("text")
-		.text((d, i, j) => d[1])
-		.attr('x', (d, i, j) => padding + (i * 60))
-		.attr('y', (d, i, j) => { return (h - d[3] * 5) })
 }
 
 //  dynamic search
@@ -147,7 +142,6 @@ $('#search').keyup(function () {
 });
 
 $('#result').on('click', 'li', function () {
-	alert(this.id);
 	var click_text = $(this).text().split('|');
 	$('#search').val($.trim(click_text[0]));
 	arrCitiesId.push([this.id, $.trim(click_text[0]), $.trim(click_text[1])]);
