@@ -25,7 +25,10 @@ function getWeather(curCityName) {
       <td>${cityNameInApi['main'].temp} &degC </td>
 	  <td>${cityNameInApi['weather'][0]['main']} - ${cityNameInApi['weather'][0]['description']}</td>`
 		var button = $('<td><button name="' + cityNameInApi.name + '" type="button" class="btn btn-dark">X</button></td></tr>').click(function (e) {
-			arrCitiesId.splice(e.target.name);
+			var delCityIndex = arrCitiesId.findIndex(function (items, i) {
+				return items[1] === e.target.name
+			});
+			arrCitiesId.splice(delCityIndex, 1);
 			$(e.currentTarget).closest('tr').remove();
 
 		});
@@ -78,9 +81,9 @@ $('#btnChart').click(function () {
 
 function drawChart() {
 	d3.select("svg").remove();
-	if($(document).width()>1100){var w=1100;}
-	else {w=$(document).width()-70;}
-	
+	if ($(document).width() > 1100) { var w = 1100; }
+	else { w = $(document).width() - 70; }
+
 	const svg = d3.select('#chart')
 		.append('svg')
 		.attr('width', w)
