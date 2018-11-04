@@ -78,9 +78,12 @@ $('#btnChart').click(function () {
 
 function drawChart() {
 	d3.select("svg").remove();
+	if($(document).width()>1100){var w=1100;}
+	else {w=$(document).width()-70;}
+	
 	const svg = d3.select('#chart')
 		.append('svg')
-		.attr('width', 1100)
+		.attr('width', w)
 		.attr('height', 500)
 		.style("background-color", "#bad986");
 	var padding = { top: 20, right: 30, bottom: 30, left: 50 };
